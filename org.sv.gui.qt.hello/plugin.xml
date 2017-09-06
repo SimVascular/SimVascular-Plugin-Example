@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+
+  <extension point="org.blueberry.ui.views">
+    <view id="org.sv.views.hello"
+          name="Hello World"
+          class="svHello"
+          icon="resources/hello.png" />
+  </extension>
+
+  <extension point="org.mitk.gui.qt.datamanager.contextMenuActions">
+      <contextMenuAction nodeDescriptorName="svHello" label="Hello Context Menu" icon="" class="svHello"/>
+  </extension>
+
+</plugin>
