@@ -26,20 +26,43 @@
 
 cmake_minimum_required(VERSION 2.8.12)
 
+#-----------------------------------------------------------------------------
+# Project and plugin name
 project(SV_PLUGIN)
 set(PLUGIN_NAME org.sv.gui.qt.hello)
+#-----------------------------------------------------------------------------
 
+#-----------------------------------------------------------------------------
+# CMake module path
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}")
+#-----------------------------------------------------------------------------
 
+#-----------------------------------------------------------------------------
+# Find SimVascular
 find_package(SimVascular REQUIRED)
+#-----------------------------------------------------------------------------
 
+#-----------------------------------------------------------------------------
+# Compiler flags
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${SimVascular_C_FLAGS}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${SimVascular_CXX_FLAGS}")
+#-----------------------------------------------------------------------------
 
+#-----------------------------------------------------------------------------
+# Include file for SimVascular externals. Will download and setup
+# all SimVascular externals
 include(${SimVascular_USE_EXTERNALS_FILE})
+#-----------------------------------------------------------------------------
 
+#-----------------------------------------------------------------------------
+# Include for plugin headers
 include_directories("${CMAKE_SOURCE_DIR}/${PLUGIN_NAME}"
   "${CMAKE_SOURCE_DIR}/${PLUGIN_NAME}/src/internal"
   "${CMAKE_BINARY_DIR}/${PLUGIN_NAME}"
   )
+#-----------------------------------------------------------------------------
+
+#-----------------------------------------------------------------------------
+# Add the subdirectory to build target plugin
 add_subdirectory("${CMAKE_SOURCE_DIR}/${PLUGIN_NAME}")
+#-----------------------------------------------------------------------------
