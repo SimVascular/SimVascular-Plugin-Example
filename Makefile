@@ -41,71 +41,68 @@ TOP=$(SV_TOP)
 
 include $(TOP)/include.mk
 
-SV_PLUGIN_HELLO_NAME=org_sv_gui_qt_hello
+SVQTGUIEXT_DIRS =  org.sv.gui.qt.hello
 
-CXXFLAGS = $(GLOBAL_CXXFLAGS) \
-	   $(LOCAL_INCDIR) \
-	   $(VTK_INCDIRS) \
-	   $(TCLTK_INCDIR) \
-           $(PYTHON_INCDIR) \
-           $(QT_INCDIRS) $(QT_DEFS) \
-	   $(ITK_INCDIRS) \
-           $(MITK_INCDIRS) $(MITK_DEFS) \
-           -Dorg_sv_gui_qt_hello_EXPORTS \
-          -DUS_MODULE_NAME=sv4guiModuleHello
+# default to shared-complete for plugins
+shared-complete:  create_plugin_export_h create_manifest_qrc create_cached_qrc moc ui qrc shared
 
-HDRS	= \
-    sv4gui_Hello.h \
-    sv4gui_HelloPluginActivator.h
+lib-complete: moc ui qrc lib
 
-CXXSRCS	=  \
-    sv4gui_Hello.cxx \
-    sv4gui_HelloPluginActivator.cxx
+static-complete:  create_plugin_export_h create_manifest_qrc create_cached_qrc moc ui qrc static
 
-UIFILES = \
-    sv4gui_Hello.ui
+lib:
+	@for i in ${SVQTGUIEXT_DIRS}; do ( \
+	  cd $$i; \
+	  $(MAKE)) ; done
 
-QRCFILES =
+static:
+	@for i in ${SVQTGUIEXT_DIRS}; do ( \
+	  cd $$i; \
+	  $(MAKE)) ; done
 
-QRCFILES += org_sv_gui_qt_hello_manifest.qrc \
-            org_sv_gui_qt_hello_cached.qrc
+shared:
+	@for i in ${SVQTGUIEXT_DIRS}; do ( \
+	  cd $$i; \
+	  $(MAKE) shared) ; done
 
-RCFILES = \
-    plugin.xml \
-    resources/hello.png
+moc:
+	@for i in ${SVQTGUIEXT_DIRS}; do ( \
+	  cd $$i; \
+	  $(MAKE) moc) ; done
 
-CXXSRCS += $(addprefix moc_,$(HDRS:.h=.cxx))
+ui:
+	@for i in ${SVQTGUIEXT_DIRS}; do ( \
+	  cd $$i; \
+	  $(MAKE) ui) ; done
 
-CXXSRCS += $(addprefix qrc_,$(notdir $(QRCFILES:.qrc=.cxx)))
+qrc:
+	@for i in ${SVQTGUIEXT_DIRS}; do ( \
+	  cd $$i; \
+	  $(MAKE) qrc) ; done
 
-DLLHDRS =
+create_plugin_export_h:
+	@for i in ${SVQTGUIEXT_DIRS}; do ( \
+	  cd $$i; \
+	  $(MAKE) create_plugin_export_h) ; done
 
-DLLSRCS =
+create_exports_cv_h:
 
-DLLLIBS += $(PYTHON_LIB) $(VTK_LIBS) $(ITK_LIBS) $(QT_LIBS) $(MITK_LIBS)
+create_manifest_qrc:
+	@for i in ${SVQTGUIEXT_DIRS}; do ( \
+	  cd $$i; \
+	  $(MAKE) create_manifest_qrc) ; done
 
-DLLLIBS +=  \
-          $(SVLIBFLAG)$(SV_PLUGIN_DATAMANAGER_NAME)$(LIBLINKEXT) \
-          $(SVLIBFLAG)$(SV_LIB_MODULE_COMMON_NAME)$(LIBLINKEXT) \
-          $(SVLIBFLAG)$(SV_LIB_MODULE_SEGMENTATION_NAME)$(LIBLINKEXT) \
-          $(SVLIBFLAG)$(SV_LIB_MODULE_PATH_NAME)$(LIBLINKEXT) \
-          $(SVLIBFLAG)$(SV_LIB_MODULE_PROJECTMANAGEMENT_NAME)$(LIBLINKEXT) \
-          $(SVLIBFLAG)$(SV_LIB_MODULE_QTWIDGETS_NAME)$(LIBLINKEXT) \
-          $(SVLIBFLAG)$(SV_LIB_ITK_LSET_NAME)$(LIBLINKEXT) \
-          $(SVLIBFLAG)$(SV_LIB_REPOSITORY_NAME)$(LIBLINKEXT) \
-          $(SVLIBFLAG)$(SV_LIB_GEOM_NAME)$(LIBLINKEXT) \
-          $(SVLIBFLAG)$(SV_LIB_UTILS_NAME)$(LIBLINKEXT) \
-          $(SVLIBFLAG)$(SV_LIB_GLOBALS_NAME)$(LIBLINKEXT)
+create_cached_qrc:
+	@for i in ${SVQTGUIEXT_DIRS}; do ( \
+	  cd $$i; \
+	  $(MAKE) create_cached_qrc) ; done
 
-EXTRA_MOC_INCDIRS = $(MITK_PLUGIN_INCDIRS) -I../../../org.sv.gui.qt.datamanager
+clean:
+	for i in ${SVQTGUIEXT_DIRS}; do ( \
+	  cd $$i; \
+	  $(MAKE) clean ) ; done
 
-TARGET_LIB_NAME = $(SV_PLUGIN_HELLO_NAME)
-
-PLUGIN_SYMBOLIC_NAME = org_sv_gui_qt_hello
-PLUGIN_EXPORTS_NAME = org_sv_gui_qt_hello
-PLUGIN_EXPORTS_PREFIX = SV_QT_
-PLUGIN_NAME = HELLO
-
-SV_COPY_DLL_TO_BIN_PLUGINS = 1
-
-include $(TOP)/targetlib.mk
+veryclean: clean
+	for i in ${SVQTGUIEXT_DIRS}; do ( \
+	  cd $$i; \
+	  $(MAKE) veryclean ) ; done

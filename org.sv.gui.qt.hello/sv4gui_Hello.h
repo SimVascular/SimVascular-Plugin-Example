@@ -29,44 +29,48 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "svHello.h"
-#include "ui_svHello.h"
+#ifndef SV4GUI_HELLO_H
+#define SV4GUI_HELLO_H
 
-const QString svHello::EXTENSION_ID = "org.sv.views.hello";
+#include <QmitkFunctionality.h>
+#include <QString>
 
-svHello::svHello() :
-  ui(new Ui::svHello)
+namespace Ui {
+class sv4guiHello;
+}
+
+class sv4guiHello : public QmitkFunctionality
 {
+    Q_OBJECT
+
+public:
+
+    sv4guiHello();
+
+    virtual ~sv4guiHello();
+
+    virtual void CreateQtPartControl(QWidget *parent) override;
+
+    static const QString EXTENSION_ID;
+
+public slots:
+    void getText();
+
+    void printText();
 
 
-}
 
-svHello::~svHello(){
-  delete ui;
-}
+public:
 
-void svHello::CreateQtPartControl(QWidget *parent){
-  m_Parent=parent;
-  ui->setupUi(parent);
+protected:
 
-  m_DisplayWidget=GetActiveStdMultiWidget();
+  QString hello_str;
 
-  if(m_DisplayWidget==NULL)
-  {
-      parent->setEnabled(false);
-      MITK_ERROR << "Plugin Hello Init Error: No QmitkStdMultiWidget!";
-      return;
-  }
+  Ui::sv4guiHello *ui;
 
-  getText();
-  connect(ui->helloPushButton, SIGNAL(clicked()), this, SLOT(printText()) );
-  connect(ui->helloLineEdit, SIGNAL(editingFinished()), this, SLOT(getText()) );
-}
+  QWidget *m_parent;
 
-void svHello::getText(){
-  hello_str = ui->helloLineEdit->text();
-}
+  QmitkStdMultiWidget* m_DisplayWidget;
+};
 
-void svHello::printText(){
-  std::cout << hello_str << "\n";
-}
+#endif // SV4GUI_HELLO_H

@@ -29,12 +29,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef SVHELLOPLUGINACTIVATOR_H
-#define SVHELLOPLUGINACTIVATOR_H
+#ifndef SV4GUI_SVHELLOPLUGINACTIVATOR_H
+#define SV4GUI_SVHELLOPLUGINACTIVATOR_H
 
 #include <ctkPluginActivator.h>
 
-class svHelloPluginActivator :
+class sv4guiHelloPluginActivator :
         public QObject, public ctkPluginActivator
 {
     Q_OBJECT
@@ -53,4 +53,4 @@ private:
 
 };
 
-#endif // SVHELLOPLUGINACTIVATOR_H
+#endif // SV4GUI_SVHELLOPLUGINACTIVATOR_H

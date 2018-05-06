@@ -29,17 +29,17 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 set(CPP_FILES
-    svHello.cxx
-    svHelloPluginActivator.cxx
+    sv4gui_Hello.cxx
+    sv4gui_HelloPluginActivator.cxx
 )
 
 set(MOC_H_FILES
-    svHello.h
-    svHelloPluginActivator.h
+    sv4gui_Hello.h
+    sv4gui_HelloPluginActivator.h
 )
 
 set(UI_FILES
-    svHello.ui
+    sv4gui_Hello.ui
 )
 
 set(CACHED_RESOURCE_FILES

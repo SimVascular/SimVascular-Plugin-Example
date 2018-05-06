@@ -29,17 +29,44 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "svHelloPluginActivator.h"
-#include "svHello.h"
+#include "sv4gui_Hello.h"
+#include "ui_sv4gui_Hello.h"
 
-void svHelloPluginActivator::start(ctkPluginContext* context)
+const QString sv4guiHello::EXTENSION_ID = "org.sv.views.hello";
+
+sv4guiHello::sv4guiHello() :
+  ui(new Ui::sv4guiHello)
 {
 
-    BERRY_REGISTER_EXTENSION_CLASS(svHello, context)
 
 }
 
-void svHelloPluginActivator::stop(ctkPluginContext* context)
-{
+sv4guiHello::~sv4guiHello(){
+  delete ui;
+}
 
+void sv4guiHello::CreateQtPartControl(QWidget *parent){
+  m_Parent=parent;
+  ui->setupUi(parent);
+
+  m_DisplayWidget=GetActiveStdMultiWidget();
+
+  if(m_DisplayWidget==NULL)
+  {
+      parent->setEnabled(false);
+      MITK_ERROR << "Plugin Hello Init Error: No QmitkStdMultiWidget!";
+      return;
+  }
+
+  getText();
+  connect(ui->helloPushButton, SIGNAL(clicked()), this, SLOT(printText()) );
+  connect(ui->helloLineEdit, SIGNAL(editingFinished()), this, SLOT(getText()) );
+}
+
+void sv4guiHello::getText(){
+  hello_str = ui->helloLineEdit->text();
+}
+
+void sv4guiHello::printText(){
+  std::cout << hello_str << "\n";
 }
