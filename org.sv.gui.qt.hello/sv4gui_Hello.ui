@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>svHello</class>
- <widget class="QWidget" name="svHello">
+ <class>sv4guiHello</class>
+ <widget class="QWidget" name="sv4guiHello">
   <property name="geometry">
    <rect>
     <x>0</x>

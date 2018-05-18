@@ -4,12 +4,12 @@
   <extension point="org.blueberry.ui.views">
     <view id="org.sv.views.hello"
           name="Hello World"
-          class="svHello"
+          class="sv4guiHello"
           icon="resources/hello.png" />
   </extension>
 
   <extension point="org.mitk.gui.qt.datamanager.contextMenuActions">
-      <contextMenuAction nodeDescriptorName="svHello" label="Hello Context Menu" icon="" class="svHello"/>
+      <contextMenuAction nodeDescriptorName="sv4guiHello" label="Hello Context Menu" icon="" class="sv4guiHello"/>
   </extension>
 
 </plugin>

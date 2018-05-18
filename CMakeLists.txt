@@ -1,5 +1,9 @@
-# Copyright (c) 2014-2015 The Regents of the University of California.
+# Copyright (c) Stanford University, The Regents of the University of
+#               California, and others.
+#
 # All Rights Reserved.
+#
+# See Copyright-SimVascular.txt for additional details.
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -57,7 +61,6 @@ include(${SimVascular_USE_EXTERNALS_FILE})
 #-----------------------------------------------------------------------------
 # Include for plugin headers
 include_directories("${CMAKE_SOURCE_DIR}/${PLUGIN_NAME}"
-  "${CMAKE_SOURCE_DIR}/${PLUGIN_NAME}/src/internal"
   "${CMAKE_BINARY_DIR}/${PLUGIN_NAME}"
   )
 #-----------------------------------------------------------------------------
