@@ -33,9 +33,9 @@ The name of your plugin is the shared library filename without its extension and
 
 SimVascular will also need the directory locations of all plugins. To find these it reads `SV_PLUGIN_PATH`, which is a `:` separated list of absolute directory paths containing the plugin shared library binary files.
 
-`SV_CUSTOM_PLUGINS` and `SV_PLUGIN_PATH` can be defined in your environment directly (e.g. by editing your `.bashrc` file). Alternatively, at runtime, SimVascular will look for a script named `simvascular_custom_plugins.sh` in the directory `~/.local/share/SimVascular/` on unix, or `~/Library/Application\ Support/SimVascular/` on MacOS and execute it, so you can also define the environment variables there. If the script doesn't exist yet you can manually create it.
+`SV_CUSTOM_PLUGINS` and `SV_PLUGIN_PATH` can be defined in your environment directly (e.g. by editing your `.bashrc` file). Alternatively, at runtime, SimVascular will look for a script named `simvascular_custom_plugins.sh` in the directory `~/.local/share/SimVascular/` on unix, or `~/Library/Application\ Support/SimVascular/` on MacOS, and execute it, so you can also define the environment variables there. If the script doesn't exist yet you can manually create it.
 
-If this plugin was compile in `/home/SimVascular-Plugin-Example/build` our `simvascular_custom_plugins.sh` file would contain
+If this plugin was compiled in `/home/SimVascular-Plugin-Example/build` our `simvascular_custom_plugins.sh` file would contain
 ```bash
 export SV_CUSTOM_PLUGINS=$SV_CUSTOM_PLUGINS:org_sv_gui_qt_hello
 
