@@ -27,17 +27,19 @@ This will compile the plugin shared library into `/build/lib/plugins`
 ### Environment Setup
 **Note:** on windows a `;` (semicolon) separator is used instead of `:` (colon)
 
-To determine what plugins to load, at runtime, SimVascular will read an environment variable named `SV_CUSTOM_PLUGINS`, which is a `:` separated list of plugin names.
+To determine what plugins to load, at runtime, SimVascular will read an environment variable named `SV_CUSTOM_PLUGINS`, which is a `:` separated list of plugin names. To load a plugin you will have to add its name to the `SV_CUSTOM_PLUGINS` variable.
 
 The name of your plugin is the shared library filename without its extension and without `lib`. E.g. if the plugin file is called `liborg_sv_gui_qt_hello.so` the plugins name is `org_sv_gui_qt_hello`.
 
-SimVascular will also need the directory locations of all plugins. To find these it reads `SV_PLUGIN_PATHS`, which is a `:` separated list of absolute directory paths containing the plugin shared library binary files.
+SimVascular will also need the directory locations of all plugins. To find these it reads `SV_PLUGIN_PATH`, which is a `:` separated list of absolute directory paths containing the plugin shared library binary files.
 
-`SV_CUSTOM_PLUGINS` and `SV_PLUGIN_PATHS` can be defined in your environment directly (e.g. by editing your `.bashrc` file). Alternatively, at runtime, SimVascular will look for a script named `simvascular_custom_plugins.sh` in the directory `~/.local/share/SimVascular/` on unix, or `~/Library/Application\ Support/SimVascular/` on MacOS and execute it, so you can also define the environment variables there. If the script doesn't exist yet you can manually create it.
+`SV_CUSTOM_PLUGINS` and `SV_PLUGIN_PATH` can be defined in your environment directly (e.g. by editing your `.bashrc` file). Alternatively, at runtime, SimVascular will look for a script named `simvascular_custom_plugins.sh` in the directory `~/.local/share/SimVascular/` on unix, or `~/Library/Application\ Support/SimVascular/` on MacOS and execute it, so you can also define the environment variables there. If the script doesn't exist yet you can manually create it.
 
 If this plugin was compile in `/home/SimVascular-Plugin-Example/build` our `simvascular_custom_plugins.sh` file would contain
 ```bash
 export SV_CUSTOM_PLUGINS=$SV_CUSTOM_PLUGINS:org_sv_gui_qt_hello
 
-export SV_PLUGIN_PATHS=$SV_PLUGIN_PATHS:/home/SimVascular-Plugin-Example/build/lib/plugins
+export SV_PLUGIN_PATH=$SV_PLUGIN_PATH:/home/SimVascular-Plugin-Example/build/lib/plugins
 ```
+
+If setup correctly you should see a "brain" icon in the list of SimVascular plugins after launcing SimVascular. Additionally during startup, SimVascular will print all plugins to the console, along with their path, and you can use that information to see if your plugin is being loaded correctly.
