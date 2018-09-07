@@ -30,43 +30,76 @@
 # NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-TOP=$(SV_TOP)
+.PHONY: setup
 
-include $(TOP)/include.mk
+shared-complete: setup pre-shared-build shared
 
-PLUGIN_TOP_DIRS = ../Code/Source/sv4gui/Plugins
+setup:
+  # we require a top level SV build directory
+  # be set in an env variable and exist
+  ifndef SV_TOP
+    $(error SV_TOP not defined)
+  endif
+  TOP=$(SV_TOP)
+  include $(TOP)/include.mk
 
-all-shared: shared-pre-build all-shared-build-only
+SVQTGUIEXT_DIRS = org.sv.gui.qt.hello
 
-all-shared-build-only: shared
+pre-shared-build: create_plugin_export_h create_manifest_qrc create_cached_qrc moc ui qrc
 
-fast:
-	-make shared-pre-build
-	-make -j6 all-shared-build-only
-	make all-shared-build-only
-
-common-pre-build:
-	mkdir -p Bin
-	mkdir -p Lib
-	mkdir -p Bin/plugins
-	mkdir -p ../Code/Source/Include/Make
-
-shared-pre-build: common-pre-build
-	for i in ${PLUGIN_TOP_DIRS}; do ( \
+lib:
+	@for i in ${SVQTGUIEXT_DIRS}; do ( \
 	  cd $$i; \
-	  $(MAKE) pre-shared-build ) ; done
+	  $(MAKE)) ; done
+
+static:
+	@for i in ${SVQTGUIEXT_DIRS}; do ( \
+	  cd $$i; \
+	  $(MAKE)) ; done
 
 shared:
-	for i in ${PLUGIN_TOP_DIRS}; do ( \
+	@for i in ${SVQTGUIEXT_DIRS}; do ( \
 	  cd $$i; \
-	  $(MAKE) shared ) ; done
+	  $(MAKE) shared) ; done
+
+moc:
+	@for i in ${SVQTGUIEXT_DIRS}; do ( \
+	  cd $$i; \
+	  $(MAKE) moc) ; done
+
+ui:
+	@for i in ${SVQTGUIEXT_DIRS}; do ( \
+	  cd $$i; \
+	  $(MAKE) ui) ; done
+
+qrc:
+	@for i in ${SVQTGUIEXT_DIRS}; do ( \
+	  cd $$i; \
+	  $(MAKE) qrc) ; done
+
+create_plugin_export_h:
+	@for i in ${SVQTGUIEXT_DIRS}; do ( \
+	  cd $$i; \
+	  $(MAKE) create_plugin_export_h) ; done
+
+create_exports_cv_h:
+
+create_manifest_qrc:
+	@for i in ${SVQTGUIEXT_DIRS}; do ( \
+	  cd $$i; \
+	  $(MAKE) create_manifest_qrc) ; done
+
+create_cached_qrc:
+	@for i in ${SVQTGUIEXT_DIRS}; do ( \
+	  cd $$i; \
+	  $(MAKE) create_cached_qrc) ; done
 
 clean:
-	for i in ${PLUGIN_TOP_DIRS}; do ( \
+	for i in ${SVQTGUIEXT_DIRS}; do ( \
 	  cd $$i; \
 	  $(MAKE) clean ) ; done
 
 veryclean: clean
-	for i in ${PLUGIN_TOP_DIRS}; do ( \
+	for i in ${SVQTGUIEXT_DIRS}; do ( \
 	  cd $$i; \
 	  $(MAKE) veryclean ) ; done

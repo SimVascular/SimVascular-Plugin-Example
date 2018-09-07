@@ -30,43 +30,76 @@
 # NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-TOP=$(SV_TOP)
+.PHONY: setup
 
-include $(TOP)/include.mk
+shared-complete: setup pre-shared-build shared
 
-PLUGIN_TOP_DIRS = ../Code/Source/sv4gui/Plugins
+setup:
+  # we require a top level SV build directory
+  # be set in an env variable and exist
+  ifndef SV_TOP
+    $(error SV_TOP not defined)
+  endif
+  TOP=$(SV_TOP)
+  include $(TOP)/include.mk
 
-all-shared: shared-pre-build all-shared-build-only
+  SV4GUI_MODULE_DIRS =
 
-all-shared-build-only: shared
+  ifeq ($(SV_USE_MESHSIM),1)
+    SV4GUI_MODULE_DIRS += Modules/MeshSim
+  endif
 
-fast:
-	-make shared-pre-build
-	-make -j6 all-shared-build-only
-	make all-shared-build-only
-
-common-pre-build:
-	mkdir -p Bin
-	mkdir -p Lib
-	mkdir -p Bin/plugins
-	mkdir -p ../Code/Source/Include/Make
-
-shared-pre-build: common-pre-build
-	for i in ${PLUGIN_TOP_DIRS}; do ( \
-	  cd $$i; \
-	  $(MAKE) pre-shared-build ) ; done
+pre-shared-build: create_exports_h us-init-module moc ui qrc create_cppmicroservices_file
 
 shared:
-	for i in ${PLUGIN_TOP_DIRS}; do ( \
+	@for i in ${SV4GUI_MODULE_DIRS}; do ( \
 	  cd $$i; \
-	  $(MAKE) shared ) ; done
+	  $(MAKE) shared) ; done
+
+create_exports_h:
+	@for i in ${SV4GUI_MODULE_DIRS}; do ( \
+	  cd $$i; \
+	  $(MAKE) create_exports_h) ; done
+
+moc:
+	@for i in ${SV4GUI_MODULE_DIRS}; do ( \
+	  cd $$i; \
+	  $(MAKE) moc) ; done
+
+ui:
+	@for i in ${SV4GUI_MODULE_DIRS}; do ( \
+	  cd $$i; \
+	  $(MAKE) ui) ; done
+
+qrc:
+	@for i in ${SV4GUI_MODULE_DIRS}; do ( \
+	  cd $$i; \
+	  $(MAKE) qrc) ; done
+
+us-init-module:
+	@for i in ${SV4GUI_MODULE_DIRS}; do ( \
+	  cd $$i; \
+	  $(MAKE) us-init-module) ; done
+
+create_cppmicroservices_file:
+	@for i in ${SV4GUI_MODULE_DIRS}; do ( \
+	  cd $$i; \
+	  $(MAKE) create_cppmicroservices_file) ; done
+
+create_exports_cv_h:
 
 clean:
-	for i in ${PLUGIN_TOP_DIRS}; do ( \
+	for i in ${SV4GUI_MODULE_DIRS}; do ( \
 	  cd $$i; \
 	  $(MAKE) clean ) ; done
 
 veryclean: clean
-	for i in ${PLUGIN_TOP_DIRS}; do ( \
+	@for i in ${SV4GUI_MODULE_DIRS}; do ( \
+	  rm -f ../Include/Make/sv$$i\Exports.h; \
+	  rm -f ../Include/Make/mitk$$i\Exports.h) ; done
+	for i in ${SV4GUI_MODULE_DIRS}; do ( \
 	  cd $$i; \
 	  $(MAKE) veryclean ) ; done
+
+
+
