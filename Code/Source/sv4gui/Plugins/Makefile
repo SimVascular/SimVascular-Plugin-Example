@@ -43,6 +43,8 @@ setup:
   TOP=$(SV_TOP)
   include $(TOP)/include.mk
 
+TARGETLIB_TOP=../../../../../BuildWithMake
+
 SVQTGUIEXT_DIRS = org.sv.gui.qt.hello
 
 pre-shared-build: create_plugin_export_h create_manifest_qrc create_cached_qrc moc ui qrc

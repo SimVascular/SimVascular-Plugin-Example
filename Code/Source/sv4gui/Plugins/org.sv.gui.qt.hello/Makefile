@@ -41,6 +41,8 @@ TOP=$(SV_TOP)
 
 include $(TOP)/include.mk
 
+TARGETLIB_TOP=../../../../../BuildWithMake
+
 SV_PLUGIN_HELLO_NAME=org_sv_gui_qt_hello
 
 CXXFLAGS = $(GLOBAL_CXXFLAGS) \
