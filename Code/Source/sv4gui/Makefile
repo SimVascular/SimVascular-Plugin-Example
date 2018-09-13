@@ -41,7 +41,10 @@ setup:
     $(error SV_TOP not defined)
   endif
   TOP=$(SV_TOP)
+  EXAMPLE_PLUGIN_TOP=../../../BuildWithMake
+  TARGETLIB_TOP=$(EXAMPLE_PLUGIN_TOP)
   include $(TOP)/include.mk
+  #include $(EXAMPLE_PLUGIN_TOP)/include.example.mk
 
   SV4GUI_MODULE_DIRS =
 

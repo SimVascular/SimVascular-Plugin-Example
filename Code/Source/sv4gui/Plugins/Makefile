@@ -41,9 +41,10 @@ setup:
     $(error SV_TOP not defined)
   endif
   TOP=$(SV_TOP)
+  EXAMPLE_PLUGIN_TOP=../../../../../BuildWithMake
+  TARGETLIB_TOP=$(EXAMPLE_PLUGIN_TOP)
   include $(TOP)/include.mk
-
-TARGETLIB_TOP=../../../../../BuildWithMake
+  #include $(EXAMPLE_PLUGIN_TOP)/include.example.mk
 
 SVQTGUIEXT_DIRS = org.sv.gui.qt.hello
 

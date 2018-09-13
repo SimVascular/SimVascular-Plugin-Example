@@ -31,8 +31,10 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 TOP=$(SV_TOP)
+EXAMPLE_PLUGIN_TOP=.
 
 include $(TOP)/include.mk
+#include $(EXAMPLE_PLUGIN_TOP)/include.example.mk
 
 PLUGIN_TOP_DIRS = ../Code/Source/sv4gui/Plugins
 
