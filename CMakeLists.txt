@@ -34,6 +34,7 @@ cmake_minimum_required(VERSION 2.8.12)
 # Project and plugin name
 project(SV_PLUGIN)
 set(PLUGIN_NAME org.sv.gui.qt.hello)
+set(PLUGIN_DIR Code/Source/sv4gui/Plugins/${PLUGIN_NAME})
 #-----------------------------------------------------------------------------
 
 #-----------------------------------------------------------------------------
@@ -60,12 +61,12 @@ include(${SimVascular_USE_EXTERNALS_FILE})
 
 #-----------------------------------------------------------------------------
 # Include for plugin headers
-include_directories("${CMAKE_SOURCE_DIR}/${PLUGIN_NAME}"
-  "${CMAKE_BINARY_DIR}/${PLUGIN_NAME}"
+include_directories("${CMAKE_SOURCE_DIR}/${PLUGIN_DIR}"
+  "${CMAKE_BINARY_DIR}/${PLUGIN_DIR}"
   )
 #-----------------------------------------------------------------------------
 
 #-----------------------------------------------------------------------------
 # Add the subdirectory to build target plugin
-add_subdirectory("${CMAKE_SOURCE_DIR}/${PLUGIN_NAME}")
+add_subdirectory("${CMAKE_SOURCE_DIR}/${PLUGIN_DIR}")
 #-----------------------------------------------------------------------------
