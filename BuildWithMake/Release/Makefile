@@ -47,7 +47,7 @@ ifeq ($(CLUSTER),x64_cygwin)
   include $(TOP)/MakeHelpers/$(SV_EXTERNALS_VERSION_NUMBER)/wix-3.14.x64_cygwin.mk
 endif
 
-#SV_TIMESTAMP := $(shell date +"%Y-%m-%d")
+SV_TIMESTAMP ?= $(shell date +"%Y-%m-%d")
 SV_PLUGIN_TIMESTAMP := $(shell date +"%Y-%m-%d")
 
 DIST_DIR_PLUGIN_TOP=package-release-plugin-example
