@@ -136,9 +136,13 @@ puts $outfp "<?xml version='1.0' encoding='windows-1252'?>"
 puts $outfp "<Wix xmlns=\"http://schemas.microsoft.com/wix/2006/wi\""
 puts $outfp "     xmlns:util=\"http://schemas.microsoft.com/wix/UtilExtension\">"
 
-puts $outfp "<Product Name='SimVascular Example Plugin' Id='3444AE76-C298-4987-9B10-DC445C45FC33' UpgradeCode='EAB0C30D-E79F-47CF-969C-B35DBD3C75A7' Language='1033' Codepage='1252' Version='19.01.22' Manufacturer='SimVascular'>"
+set uniqueId [exec tmp/uuidgen.exe 1]
+set uniqueUpgradeCode [exec tmp/uuidgen.exe 1]
+set uniquePackageId [exec tmp/uuidgen.exe 1]
 
-puts $outfp "<Package Id='403BB6F5-B3A2-481C-8E78-17647828CA38' Keywords='Installer' Description='SimVascular Licensed Modules Installer' Comments='SimVascular Example Plugin' Manufacturer='SimVascular' InstallerVersion='200' Languages='1033' Compressed='yes' Platform='x64' SummaryCodepage='1252'/>"
+puts $outfp "<Product Name='SimVascular Example Plugin' Id='$uniqueId' UpgradeCode='$uniqueUpgradeCode' Language='1033' Codepage='1252' Version='19.01.22' Manufacturer='SimVascular'>"
+
+puts $outfp "<Package Id='$uniquePackageId' Keywords='Installer' Description='SimVascular Licensed Modules Installer' Comments='SimVascular Example Plugin' Manufacturer='SimVascular' InstallerVersion='200' Languages='1033' Compressed='yes' Platform='x64' SummaryCodepage='1252'/>"
 
 puts $outfp "<WixVariable Id=\"WixUILicenseRtf\" Value=\"License.rtf\" />"
 puts $outfp "<WixVariable Id=\"WixUIBannerBmp\" Value=\"windows_msi_helpers/msi-banner.bmp\" />"
