@@ -34,6 +34,9 @@ set SV_TIMESTAMP [lindex $argv 2]
 set SV_PLUGIN_TIMESTAMP [lindex $argv 3]
 set DIST_DIR_PLUGIN_TOP [lindex $argv 4]
 set SV_MAJOR_VER_NO [lindex $argv 5]
+set SV_PLUGIN_MAJOR_VER_NO [lindex $argv 6]
+set SV_PLUGIN_MINOR_VER_NO [lindex $argv 7]
+set SV_PLUGIN_PATCH_VER_NO [lindex $argv 8]
 
 global pwd
 if {$tcl_platform(platform) == "windows"} {
@@ -140,7 +143,7 @@ set uniqueId [exec tmp/uuidgen.exe 1]
 set uniqueUpgradeCode [exec tmp/uuidgen.exe 1]
 set uniquePackageId [exec tmp/uuidgen.exe 1]
 
-puts $outfp "<Product Name='SimVascular Example Plugin' Id='$uniqueId' UpgradeCode='$uniqueUpgradeCode' Language='1033' Codepage='1252' Version='19.01.22' Manufacturer='SimVascular'>"
+puts $outfp "<Product Name='SimVascular ($SV_TIMESTAMP) Example Plugin' Id='$uniqueId' UpgradeCode='$uniqueUpgradeCode' Language='1033' Codepage='1252' Version='$SV_PLUGIN_MAJOR_VER_NO.$SV_PLUGIN_MINOR_VER_NO.$SV_PLUGIN_PATCH_VER_NO' Manufacturer='SimVascular'>"
 
 puts $outfp "<Package Id='$uniquePackageId' Keywords='Installer' Description='SimVascular Licensed Modules Installer' Comments='SimVascular Example Plugin' Manufacturer='SimVascular' InstallerVersion='200' Languages='1033' Compressed='yes' Platform='x64' SummaryCodepage='1252'/>"
 

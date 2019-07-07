@@ -49,6 +49,9 @@ endif
 
 SV_TIMESTAMP ?= $(shell date +"%Y-%m-%d")
 SV_PLUGIN_TIMESTAMP := $(shell date +"%Y-%m-%d")
+SV_PLUGIN_MAJOR_VER_NO := $(shell date +"%y")
+SV_PLUGIN_MINOR_VER_NO := $(shell date +"%m")
+SV_PLUGIN_PATCH_VER_NO := $(shell date +"%d")
 
 DIST_DIR_PLUGIN_TOP=package-release-plugin-example
 
@@ -87,7 +90,7 @@ endif
 	-cp -f tmp/timestamp $(DIST_DIR_PLUGIN_TOP)/
 	-cp -f $(EXAMPLE_PLUGIN_TOP)/Lib/$(LIB_BUILD_DIR)/*hello*.$(SOEXT)* $(DIST_DIR_PLUGIN_TOP)
 	-echo "Create WXS file..."
-	-tclsh windows_msi_helpers/makewxs-plugin-example.tcl $(SV_VERSION) $(SV_PLATFORM) $(SV_TIMESTAMP) $(SV_PLUGIN_TIMESTAMP) $(DIST_DIR_PLUGIN_TOP) $(SV_MAJOR_VER_NO)  
+	-tclsh windows_msi_helpers/makewxs-plugin-example.tcl $(SV_VERSION) $(SV_PLATFORM) $(SV_TIMESTAMP) $(SV_PLUGIN_TIMESTAMP) $(DIST_DIR_PLUGIN_TOP) $(SV_MAJOR_VER_NO) $(SV_PLUGIN_MAJOR_VER_NO) $(SV_PLUGIN_MINOR_VER_NO) $(SV_PLUGIN_PATCH_VER_NO)
 	-echo "Run candle..."
 	-$(WIXUI_PATH)/candle.exe -ext WixBalExtension -ext WixUIExtension -ext WixUtilExtension -out tmp/simvascular-plugin-example.wixobj tmp/simvascular-plugin-example.wxs
 	-echo "Run light..."
