@@ -72,3 +72,5 @@ veryclean: clean
 	for i in ${PLUGIN_TOP_DIRS}; do ( \
 	  cd $$i; \
 	  $(MAKE) veryclean ) ; done
+	-rm -Rf int
+	-rm -Rf ext
