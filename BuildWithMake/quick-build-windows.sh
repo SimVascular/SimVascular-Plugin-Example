@@ -58,6 +58,7 @@ fi
 
 export INTERNALS_TOP=`pwd`/int
 
+if [ -e $INTERNALS_TOP ];then /bin/rm -f $INTERNALS_TOP;fi
 mkdir -p $INTERNALS_TOP
 chmod -R a+rwx $INTERNALS_TOP
 mkdir -p $INTERNALS_TOP/tarfiles

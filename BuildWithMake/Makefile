@@ -34,11 +34,11 @@ TOP=$(SV_TOP)
 EXAMPLE_PLUGIN_TOP=.
 
 include $(TOP)/include.mk
-#include $(EXAMPLE_PLUGIN_TOP)/include.example.mk
+include $(EXAMPLE_PLUGIN_TOP)/include.example.mk
 
 PLUGIN_TOP_DIRS = ../Code/Source/sv4gui/Plugins
 
-all-shared: shared-pre-build all-shared-build-only
+all-shared: shared-pre-build all-shared-build-only post-build
 
 all-shared-build-only: shared
 
@@ -63,10 +63,42 @@ shared:
 	  cd $$i; \
 	  $(MAKE) shared ) ; done
 
+post-build:
+	-echo "#!/bin/bash -f" > sv-with-example.sh
+ifeq ($(CLUSTER),x64_cygwin)
+ifeq ($(SV_USE_EXAMPLE),1)
+	-echo "export LD_LIBRARY_PATH=`cygpath -u $(shell pwd)/Lib/$(LIB_BUILD_DIR)`:\$$LD_LIBRARY_PATH" >> sv-with-example.sh
+	-echo "export SV_PLUGIN_PATH=\"`cygpath --windows -t mixed $(shell pwd)/Bin/plugins`;\$$SV_PLUGIN_PATH\"" >> sv-with-example.sh
+	-echo "export SV_CUSTOM_PLUGINS=\"`cygpath --windows -t mixed $(SV_PLUGIN_HELLO_NAME)`;\$$SV_CUSTOM_PLUGINS\"" >> sv-with-example.sh
+	-echo "#uncommented the following line to launch SimVascular directly!"  >> sv-with-example.sh
+	-echo "#`cygpath -u $(SV_TOP)`/sv \$$*" >> sv-with-example.sh
+endif
+endif
+ifeq ($(CLUSTER),x64_linux)
+ifeq ($(SV_USE_EXAMPLE),1)
+	-echo "export LD_LIBRARY_PATH=$(shell pwd)/Lib/$(LIB_BUILD_DIR):\$$LD_LIBRARY_PATH" >> sv-with-example.sh
+	-echo "export SV_PLUGIN_PATH=$(shell pwd)/Bin/plugins:\$$SV_PLUGIN_PATH" >> sv-with-example.sh
+	-echo "export SV_CUSTOM_PLUGINS=$(SV_PLUGIN_HELLO_NAME):\$$SV_CUSTOM_PLUGINS" >> sv-with-example.sh
+	-echo "#uncommented the following line to launch SimVascular directly!"  >> sv-with-example.sh
+	-echo "#$(SV_TOP)/sv \$$*" >> sv-with-example.sh
+endif
+endif
+ifeq ($(CLUSTER),x64_macosx)
+ifeq ($(SV_USE_EXAMPLE),1)
+	-echo "export LD_LIBRARY_PATH=$(shell pwd)/Lib/$(LIB_BUILD_DIR):\$$LD_LIBRARY_PATH" >> sv-with-example.sh
+	-echo "export SV_PLUGIN_PATH=$(shell pwd)/Bin/plugins:\$$SV_PLUGIN_PATH" >> sv-with-example.sh
+	-echo "export SV_CUSTOM_PLUGINS=$(SV_PLUGIN_HELLO_NAME):\$$SV_CUSTOM_PLUGINS" >> sv-with-example.sh
+	-echo "#uncommented the following line to launch SimVascular directly!"  >> sv-with-example.sh
+	-echo "#$(SV_TOP)/sv \$$*" >> sv-with-example.sh
+endif
+endif
+	-chmod a+rx ./sv-with-example.sh
+
 clean:
 	for i in ${PLUGIN_TOP_DIRS}; do ( \
 	  cd $$i; \
 	  $(MAKE) clean ) ; done
+	if [ -e sv-with-example.sh ];then /bin/rm -f sv-with-example.sh;fi
 
 veryclean: clean
 	for i in ${PLUGIN_TOP_DIRS}; do ( \
