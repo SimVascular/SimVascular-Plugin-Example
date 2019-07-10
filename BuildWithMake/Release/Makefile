@@ -34,7 +34,7 @@ TOP=$(SV_TOP)
 EXAMPLE_PLUGIN_TOP=..
 TARGETLIB_TOP=$(EXAMPLE_PLUGIN_TOP)
 include $(TOP)/include.mk
-#include $(EXAMPLE_PLUGIN_TOP)/include.example.mk
+include $(EXAMPLE_PLUGIN_TOP)/include.example.mk
 
 #
 #  The following are helper scripts to create PC

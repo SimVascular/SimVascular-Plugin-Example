@@ -33,60 +33,62 @@
 #export SV_EXTERNALS_VERSION_NUMBER=2019.02
 export SV_EXTERNALS_VERSION_NUMBER=2019.06
 
-export SV_BUILD_AGAINST_RELEASE_DATE=2019-07-05
-export SV_BUILD_AGAINST_RELEASE_DATE_DOTS=2019.07.05
+export SV_BUILD_AGAINST_RELEASE_DATE=2019-07-09
+export SV_BUILD_AGAINST_RELEASE_DATE_DOTS=2019.07.09
 
 if [ $SV_EXTERNALS_VERSION_NUMBER == '2019.02' ]; then
 
   # use vs2015 compiler
-  export EXTERNALS_PARENT_URL=http://simvascular.stanford.edu/downloads/public/simvascular/externals/2019.02/windows/windows/10.0/msvc/19.0/x64/release/2019.05.21
-  export EXTERNALS_TAR_FILE_PREFIX=windows.10.0.msvc.19.0.x64.release.2019.05.21
   export INTERNALS_PARENT_URL=http://simvascular.stanford.edu/downloads/public/simvascular/internals/XXXXXXX
 
 elif [ $SV_EXTERNALS_VERSION_NUMBER == '2019.06' ]; then
 
   # use vs2017 compiler
-  export EXTERNALS_PARENT_URL=http://simvascular.stanford.edu/downloads/public/simvascular/externals/2019.06/windows/windows/10.0/msvc/19.16/x64/release/2019.07.05
-  export EXTERNALS_TAR_FILE_PREFIX=windows.10.0.msvc.19.16.x64.release.2019.07.05
   export INTERNALS_PARENT_URL=http://simvascular.stanford.edu/downloads/public/simvascular/internals/2019.06/windows/windows/10.0/msvc/19.16/x64/release/$SV_BUILD_AGAINST_RELEASE_DATE_DOTS
 
 fi
 
-#
-# internals
-#
+if [[ -z "${SV_TOP}" ]]; then
 
-export INTERNALS_TOP=`pwd`/int
+  #
+  # internals
+  #
 
-if [ -e $INTERNALS_TOP ];then /bin/rm -f $INTERNALS_TOP;fi
-mkdir -p $INTERNALS_TOP
-chmod -R a+rwx $INTERNALS_TOP
-mkdir -p $INTERNALS_TOP/tarfiles
+  export INTERNALS_TOP=`pwd`/int
 
-pushd $INTERNALS_TOP/tarfiles
+  if [ -e $INTERNALS_TOP ];then /bin/rm -fR $INTERNALS_TOP;fi
+  mkdir -p $INTERNALS_TOP
+  chmod -R a+rwx $INTERNALS_TOP
+  mkdir -p $INTERNALS_TOP/tarfiles
 
-wget $INTERNALS_PARENT_URL/simvascular-libs-headers-windows-x64.$SV_BUILD_AGAINST_RELEASE_DATE.tar.gz
+  pushd $INTERNALS_TOP/tarfiles
 
-popd
+  wget $INTERNALS_PARENT_URL/simvascular-make-libs-headers-windows-x64.$SV_BUILD_AGAINST_RELEASE_DATE.tar.gz
 
-pushd $INTERNALS_TOP
-  echo "untar simvascular-libs-headers-windows..."
-  tar xzf tarfiles/simvascular-libs-headers-windows-x64.$SV_BUILD_AGAINST_RELEASE_DATE.tar.gz
-popd
+  popd
 
-#
-# externals
-#
+  pushd $INTERNALS_TOP
+    echo "untar simvascular-make-libs-headers-windows..."
+    tar xzf tarfiles/simvascular-make-libs-headers-windows-x64.$SV_BUILD_AGAINST_RELEASE_DATE.tar.gz
+  popd
 
-source $INTERNALS_TOP/SimVascularLibsAndHeaders/$SV_BUILD_AGAINST_RELEASE_DATE/BuildWithMake/MakeHelpers/2019.06/wget-externals.x64_cygwin.sh
+  export SV_TOP=$INTERNALS_TOP/SimVascularLibsAndHeaders/$SV_BUILD_AGAINST_RELEASE_DATE/BuildWithMake
+  export SV_TOP=`cygpath --windows -t mixed $SV_TOP`
+  echo "SV_TOP: $SV_TOP"
+
+  #
+  # externals
+  #
+
+  source $INTERNALS_TOP/SimVascularLibsAndHeaders/$SV_BUILD_AGAINST_RELEASE_DATE/BuildWithMake/MakeHelpers/2019.06/wget-externals.x64_cygwin.sh
+  mv cluster_overrides.mk $INTERNALS_TOP/SimVascularLibsAndHeaders/$SV_BUILD_AGAINST_RELEASE_DATE/BuildWithMake
+  mv global_overrides.mk $INTERNALS_TOP/SimVascularLibsAndHeaders/$SV_BUILD_AGAINST_RELEASE_DATE/BuildWithMake
+
+fi
 
 #
 # build it!  Build msi installer as well
 #
-
-export SV_TOP=$INTERNALS_TOP/SimVascularLibsAndHeaders/$SV_BUILD_AGAINST_RELEASE_DATE/BuildWithMake
-export SV_TOP=`cygpath --windows -t mixed $SV_TOP`
-echo "SV_TOP: $SV_TOP"
 
 make
 
