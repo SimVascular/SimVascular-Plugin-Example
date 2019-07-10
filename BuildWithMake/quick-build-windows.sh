@@ -81,6 +81,7 @@ if [[ -z "${SV_TOP}" ]]; then
   #
 
   source $INTERNALS_TOP/SimVascularLibsAndHeaders/$SV_BUILD_AGAINST_RELEASE_DATE/BuildWithMake/MakeHelpers/2019.06/wget-externals.x64_cygwin.sh
+  echo "SV_TIMESTAMP=$SV_BUILD_AGAINST_RELEASE_DATE" >> global_overrides.mk
   mv cluster_overrides.mk $INTERNALS_TOP/SimVascularLibsAndHeaders/$SV_BUILD_AGAINST_RELEASE_DATE/BuildWithMake
   mv global_overrides.mk $INTERNALS_TOP/SimVascularLibsAndHeaders/$SV_BUILD_AGAINST_RELEASE_DATE/BuildWithMake
 
